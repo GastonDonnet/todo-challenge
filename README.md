@@ -1,35 +1,27 @@
 # Invera ToDo-List Challenge (Python/Django Jr-SSr)
 
-El propósito de esta prueba es conocer tu capacidad para crear una pequeña aplicación funcional en un límite de tiempo. A continuación, encontrarás las funciones, los requisitos y los puntos clave que debés tener en cuenta durante el desarrollo.
+## Requisitos
+- Tener Docker y Docker Compose instalado
+## Instalacion
+- Crear archivo `.env` (podes copiar el `.env.sample` y renombrarlo)
+- *(OPCIONAL)* Para utilizar SQLITE en lugar de posgresql colocar variable de entorno `DJANGO_SETTINGS_MODULE=todo_app.settings-sqlite`
+- Ejecutar el comando `sudo docker-compose up -d`
+- Correr las migraciones `sudo docker exec todo-challenge_web_1 python manage.py migrate`
+- El API correra en la ruta: `http://localhost:8000/` (Ruta a usar para este ejercicio `http://localhost:8000/api/v1/todos/task/`)
 
-## Qué queremos que hagas:
-
-- El Challenge consiste en crear una aplicación web sencilla que permita a los usuarios crear y mantener una lista de tareas.
-- La entrega del resultado será en un nuevo fork de este repo y deberás hacer una pequeña demo del funcionamiento y desarrollo del proyecto ante un super comité de las más grandes mentes maestras de Invera, o a un par de devs, lo que sea más fácil de conseguir.
-- Podes contactarnos en caso que tengas alguna consulta.
-
-## Objetivos:
-
-El usuario de la aplicación tiene que ser capaz de:
-
-- Crear una tarea
-- Eliminar una tarea
-- Marcar tareas como completadas
-- Poder ver una lista de todas las tareas existentes
-- Filtrar/buscar tareas por fecha de creación y/o por el contenido de la misma
-
-## Qué evaluamos:
-
-- Desarrollo utilizando Python, Django. No es necesario crear un Front-End, pero sí es necesario tener una API que permita cumplir con los objetivos de arriba.
-- Calidad y arquitectura de código. Facilidad de lectura y mantenimiento del código. Estándares seguidos.
-- [Bonus] Manejo de logs.
-- [Bonus] Creación de tests (unitarias y de integración)
-- [Bonus] Unificar la solución propuesta en una imagen de Docker por repositorio para poder ser ejecutada en cualquier ambiente (si aplica para full stack).
-
-## Requerimientos de entrega:
-
-- Hacer un fork del proyecto y pushearlo en github. Puede ser privado.
-- La solución debe correr correctamente.
-- El Readme debe contener todas las instrucciones para poder levantar la aplicación, en caso de ser necesario, y explicar cómo se usa.
-- Disponibilidad para realizar una pequeña demo del proyecto al finalizar el challenge.
-- Tiempo para la entrega: Aproximadamente 7 días.
+## Notas
+- Comitie un archivo sqlite con 3 tareas para que no tengan que crear
+- ABM de tareas
+  - Para eliminar utilizar `DELETE` a `http://localhost:8000/api/v1/todos/task/${ID}`
+  - Para marcar una tarea como completado utilizar `PATCH` en `http://localhost:8000/api/v1/todos/task/${ID}` con un body `{done: true}`
+  - Para crear utilizar `POST` en `http://localhost:8000/api/v1/todos/task/`
+  - Para ver la lista de tareas utilizar `GET` en `http://localhost:8000/api/v1/todos/task/`
+    - Filtros para esta ruta (queries):
+      - Para filtrar por fecha:
+        - created_at__lte=2017-6-28+00:00
+        - created_at__gte=2017-6-28+00:00
+        - created_at=2017-6-28+00:00
+      - Para filtrar por contenido
+        - description__icontains=comprar
+        - name__icontains=gimnacio
+- Nunca utilice logs ni realice test en Django
